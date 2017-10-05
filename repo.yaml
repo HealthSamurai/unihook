@@ -5,3 +5,9 @@ metadata:
 url: https://github.com/HealthSamurai/unihook.git
 type: github
 fullName: HealthSamurai/unihook
+oauthConsumer:
+  token: 
+    valueFrom:
+      secretKeyRef:
+        name: github
+        key: token
