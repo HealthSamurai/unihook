@@ -1,0 +1,7 @@
+apiVersion: "ci3.io/v1"
+kind: Repository
+metadata:
+  name: unihook
+url: https://github.com/HealthSamurai/unihook.git
+type: github
+fullName: HealthSamurai/unihook

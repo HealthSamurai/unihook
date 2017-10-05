@@ -1,0 +1,14 @@
+replicaCount: 1
+image:
+  repository: eu.gcr.io/vivid-kite-171620/unihook
+  tag: latest
+  pullPolicy: IfNotPresent
+
+kafka: kafka-kafka.default.svc.cluster.local:9092
+www: http://cleo-webhooks.health-samurai.io
+
+service:
+  name: unihook
+  type: NodePort
+  externalPort: 80
+  internalPort: 8888

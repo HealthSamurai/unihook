@@ -1,0 +1,40 @@
+apiVersion: "zeroci.io/v1"
+kind: Build
+status: peinding
+environment:
+  GIT_COMMIT: "$(git rev-parse --short HEAD)"
+pipeline:
+
+- type: env
+  GIT_COMMIT:
+    command: "git rev-parse --short HEAD"
+- type: env
+  UNIHOOK_REPO: eu.gcr.io/vivid-kite-171620/unihook
+
+# Restore cache
+- type: maven
+  command: restore-cache
+  key: unihook
+
+# Build unihook container
+- type: bash
+  command: echo $GIT_COMMIT
+- type: lein
+  command: uberjar
+- type: bash
+  command: docker build -t $UNIHOOK_REPO:v_$GIT_COMMIT .
+- type: bash
+  command: docker tag $UNIHOOK_REPO:v_$GIT_COMMIT $UNIHOOK_REPO:latest
+- type: bash
+  command: docker login -u _json_key -p "$DOCKER_KEY" https://eu.gcr.io
+- type: bash
+  command: docker push $UNIHOOK_REPO:v_$GIT_COMMIT
+
+# Save cache
+- type: maven
+  command: save-cache
+  key: unihook
+
+# Update cluster
+- type: bash
+  command: helm upgrade --set image.tag=v_$GIT_COMMIT,image.repository=$UNIHOOK_REPO -i unihook charts/unihook
