@@ -32,9 +32,10 @@ pipeline:
   command: docker push $UNIHOOK_REPO:v_$GIT_COMMIT
 
 # Save cache
-- type: maven
-  command: save-cache
-  key: unihook
+# TODO fix cache bug
+# - type: maven
+#   command: save-cache
+#   key: unihook
 
 # Update cluster
 - type: bash
