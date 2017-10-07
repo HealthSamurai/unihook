@@ -27,6 +27,7 @@ pipeline:
   command: docker tag $UNIHOOK_REPO:v_$GIT_COMMIT $UNIHOOK_REPO:latest
 - type: bash
   command: docker login -u _json_key -p "$DOCKER_KEY" https://eu.gcr.io
+
 - type: bash
   command: docker push $UNIHOOK_REPO:v_$GIT_COMMIT
 
