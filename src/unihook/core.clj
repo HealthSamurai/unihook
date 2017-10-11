@@ -19,7 +19,6 @@
   (if-let [p @*producer]
     p (reset! *producer (KafkaProducer. cfg))))
 
-
 (defn kafka-send [topic payload]
   (.send (get-producer p-cfg)
          (ProducerRecord. topic (.getBytes (json/generate-string payload)))))
@@ -33,8 +32,10 @@
   (let [topic (str prefix (sanitize (:uri req)))]
     (println "Send to " topic)
     (kafka-send topic 
-     (cond-> (dissoc req :async-channel)
-       body (assoc :body (slurp body)))))
+                (cond-> (-> req
+                            (dissoc :async-channel)
+                            (assoc :ts (java.util.Date.)))
+                  body (assoc :body (slurp body)))))
   {:status 200
    :body "ok"})
 
