@@ -37,8 +37,8 @@
                             (assoc :ts (java.util.Date.)))
                   body (assoc :body (slurp body)))))
   {:status 200
-   :headers {"Content-Type" "text/plain"}
-   :body "Ok!"})
+   :headers {"Content-Type" "text/xml"}
+   :body "<Response></Response>"})
 
 (defonce server (atom nil))
 
